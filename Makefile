@@ -1,18 +1,57 @@
-CC = cc 
+NAME = so_long
 
-CFLAGS = -Wall -Wextra -Werror 	#   #-g -fsanitize=address
+CC = cc
+
+CFLAGS = -Wall -Wextra -Werror -I./minilibx-linux #-g -fsanitize=address
 
 SRC = get_len/get_next_line.c get_len/get_next_line_utils.c map_parsing.c helper.c so_long.c
 
-NAME = so_long
+MLX_FLAGS = -L./minilibx-linux -lmlx -lXext -lX11 -lm -lz
 
-$(NAME) : $(SRC)
-	$(CC) $(CFLAGS) $(SRC) -o $(NAME)
+all: $(NAME)
 
-clean :
+$(NAME): $(SRC)
+	$(CC) $(CFLAGS) $(SRC) $(MLX_FLAGS) -o $(NAME)
+
+clean:
 	rm -f $(NAME)
 
-flcean : clean
-	rm -r $(NAME)
+fclean: clean
 
-re : fclean all
+re: fclean all
+
+
+#-----------------------------------------------------------------#
+
+
+# CC = cc 
+
+# CFLAGS = -Wall -Wextra -Werror 	#   #-g -fsanitize=address
+
+# CFLAGS = -Wall -Wextra -Werror -I./minilibx-linux
+
+# SRC = get_len/get_next_line.c get_len/get_next_line_utils.c map_parsing.c helper.c so_long.c
+
+# NAME = so_long
+
+# # all : $(NAME)
+
+# # %.o: %.c
+# # 	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
+
+# $(NAME) : $(SRC)
+# 	$(CC) $(CFLAGS) $(SRC) -o $(NAME)
+# #  MLX_FLAGS = -Lmlx_linux -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
+
+# # $(NAME): $(OBJS)
+# # 	$(CC) $(CFLAGS) $(OBJS) $(MLX_FLAGS) -o $(NAME)
+
+
+# clean :
+# 	rm -f $(NAME)
+
+# flcean : clean
+# 	rm -r $(NAME)
+
+# re : fclean all
+

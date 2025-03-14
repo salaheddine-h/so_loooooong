@@ -6,19 +6,18 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:17:05 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/13 00:52:13 by salhali          ###   ########.fr       */
+/*   Updated: 2025/03/14 02:41:26 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-char **parse_map(const char *Pathname_map)
+char **parse_map(const char *Pathname_map, t_game *game)
 {
     int     fd;
     int     total_lines;
     int     i;
     char    **map;
-
     total_lines = count_lines(Pathname_map);
     if (total_lines <= 0)
         return NULL;
@@ -36,12 +35,14 @@ char **parse_map(const char *Pathname_map)
         i++;
     map[i] = NULL;
     close(fd);
+    game->win_x = i; // 6
+    game->win_y = ft_strlen(map[0]); // 34
     return map;
 }
 
 int check_shape(char **map)
 {
-    int i;
+    size_t i;
     size_t len;
     size_t  curr_len;
 
@@ -63,35 +64,35 @@ int check_shape(char **map)
     return 1;
 }
 
-int check_walls(char **map)
+int check_walls(char **map) //Walls الجدران
 {
     size_t i;
     size_t  j;
-    size_t row_count = 0;
-    size_t  col_count;
+    size_t count_Y = 0;
+    size_t  count_X;
     size_t  current_len;
 
-    while (map[row_count])
-        row_count++;
-    if (row_count < 3)
-        return 0;
-
-    col_count = ft_strlen(map[0]);
-    if(map[0][col_count - 1] == '\n')
-        col_count--;
+    while (map[count_Y])
+        count_Y++;
+    count_X = ft_strlen(map[0]);
+    if(map[0][count_X - 1] == '\n')
+        count_X--;
     j = 0;
-    while(j < col_count)
+    while(j < count_X)
     {
-        if(map[0][j] != '1' || map[row_count - 1][j] != '1')
+        if(map[0][j] != '1' || map[count_Y - 1][j] != '1')
             return 0;
         j++;
     }
-    i = 1;
-    while(i < row_count - 1)
+    i = 0;
+    while(i < count_Y )
     {
         current_len = ft_strlen(map[i]);
         if(map[i][current_len - 1] == '\n')
+        {
+            map[i][current_len - 1] = 0;
             current_len--;
+        }
         if(map[i][0] != '1' || map[i][current_len - 1] != '1')
             return 0;
         i++;
@@ -111,7 +112,7 @@ int check_player(char **map)
     while(map[i] != NULL)
     {
         j = 0;
-        while(map[i][j] && map[i][j] != '\n')
+        while(map[i][j])
         {
             if(map[i][j] == 'P')
                 count_player++;
@@ -138,19 +139,16 @@ int check_map(char **map)
         ERROR("Error: Map is not valid.\n");
         return 0;
     }
-    if (!check_walls(map)) //Walls الجدران
+    if (check_walls(map) == 0) //Walls الجدران
     {
         ERROR("Error: Map Walls are not valid.\n");
         return 0;
     }
-    if (!check_player(map)) //Valid Characters P C E 1 0 ou khassni enmy
+    if (check_player(map) == 0) //Valid Characters P C E 1 0 ou khassni enmy
     {
         ERROR("Error: Map does not contain required player.\n");
         return 0;
     }
     return 1;
 }
-// map_shape  
-// the characters used 
-// the counts of specific elements.
 
