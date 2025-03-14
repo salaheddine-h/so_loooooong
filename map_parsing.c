@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:17:05 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/14 02:41:26 by salhali          ###   ########.fr       */
+/*   Updated: 2025/03/14 20:05:58 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ char **parse_map(const char *Pathname_map, t_game *game)
         i++;
     map[i] = NULL;
     close(fd);
-    game->win_x = i; // 6
-    game->win_y = ft_strlen(map[0]); // 34
+    game->win_y = i; // 6
+    game->win_x = ft_strlen(map[0]); // 34
     return map;
 }
 

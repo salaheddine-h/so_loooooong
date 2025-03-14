@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:28:44 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/14 03:01:17 by salhali          ###   ########.fr       */
+/*   Updated: 2025/03/14 09:27:54 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ typedef struct s_game
     int     win_x;
     int     win_y;
     char    **map;
-    void    *mlx_win
+    void    *mlx_window;
 }t_game;
 
 
 typedef struct	s_data {
-	void	*img;
+	void	*img_window;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
