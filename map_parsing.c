@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: salah <salah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:17:05 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/14 20:05:58 by salhali          ###   ########.fr       */
+/*   Updated: 2025/03/15 01:01:40 by salah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+size_t double_str_len(char **str)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        i++;
+    }
+    return (i);
+}
+char **copy_map(char **origin_map)
+{
+    size_t len;
+
+    len = double_str_len(origin_map);
+    printf("the size of the map is: %ld\n", len);
+    return NULL;
+}
 
 char **parse_map(const char *Pathname_map, t_game *game)
 {
@@ -18,23 +38,26 @@ char **parse_map(const char *Pathname_map, t_game *game)
     int     total_lines;
     int     i;
     char    **map;
+    char **cpy_map;
     total_lines = count_lines(Pathname_map);
     if (total_lines <= 0)
         return NULL;
-    
+
     map = malloc(sizeof(char *) * (total_lines + 1));
-    if (!map)
+    cpy_map = malloc(sizeof(char *) * (total_lines + 1));
+    if (!map || !cpy_map)
         return NULL;
-    
+
     fd = open(Pathname_map, O_RDONLY);
     if (fd == -1)
         return NULL;
-    
+
     i = 0;
     while ((map[i] = get_next_line(fd)) != NULL)
         i++;
     map[i] = NULL;
     close(fd);
+    // game->cpy_map =
     game->win_y = i; // 6
     game->win_x = ft_strlen(map[0]); // 34
     return map;
