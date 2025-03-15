@@ -6,31 +6,41 @@
 /*   By: salah <salah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:17:05 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/15 01:01:40 by salah            ###   ########.fr       */
+/*   Updated: 2025/03/15 19:45:24 by salah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-size_t double_str_len(char **str)
-{
-    int i;
+// size_t double_str_len(char **str)
+// {
+//     size_t  i = 0;
+//     while (str[i])
+//         i++;
+//     return (i);
+// }
+// char **copy_map(char **origin_map)
+// {
+//     size_t len;
+//     char **map_copy;
 
-    i = 0;
-    while (str[i])
-    {
-        i++;
-    }
-    return (i);
-}
-char **copy_map(char **origin_map)
-{
-    size_t len;
+//     len = double_str_len(origin_map);
+//     printf("------> %ld\n", len);
+//     map_copy = malloc(len + 1);
+//     if(!map_copy)
+//         return(NULL);
 
-    len = double_str_len(origin_map);
-    printf("the size of the map is: %ld\n", len);
-    return NULL;
-}
+//         int i;
+
+//         i= 0;
+//     while(origin_map[i])
+//     {
+//         map_copy[i] = ft_strdup(origin_map[i]);
+//         i++;
+//     }
+//     map_copy[i] = NULL;
+//     return map_copy;
+// }
 
 char **parse_map(const char *Pathname_map, t_game *game)
 {
@@ -38,14 +48,13 @@ char **parse_map(const char *Pathname_map, t_game *game)
     int     total_lines;
     int     i;
     char    **map;
-    char **cpy_map;
+    // char **cpy_map;
+
     total_lines = count_lines(Pathname_map);
-    if (total_lines <= 0)
-        return NULL;
+    // printf("****** %d\n", total_lines);
 
     map = malloc(sizeof(char *) * (total_lines + 1));
-    cpy_map = malloc(sizeof(char *) * (total_lines + 1));
-    if (!map || !cpy_map)
+    if (!map)
         return NULL;
 
     fd = open(Pathname_map, O_RDONLY);
@@ -57,7 +66,13 @@ char **parse_map(const char *Pathname_map, t_game *game)
         i++;
     map[i] = NULL;
     close(fd);
-    // game->cpy_map =
+    // game->cpy_map = copy_map(map);
+    int k = 0;
+    while (map[k])
+    {
+        printf("%s", map[k]);
+        k++;
+    }
     game->win_y = i; // 6
     game->win_x = ft_strlen(map[0]); // 34
     return map;

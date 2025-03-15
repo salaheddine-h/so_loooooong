@@ -6,7 +6,7 @@
 /*   By: salah <salah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:42:03 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/15 02:17:27 by salah            ###   ########.fr       */
+/*   Updated: 2025/03/15 03:30:47 by salah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,20 +105,18 @@ int main(int ac, char **av)
     if (ac != 2)
     	ft_error_message("Error input", 1);
     ft_memset(&game, 0, sizeof(game));
-    // ft_init_values(&game);
     game.map = parse_map(av[1], &game);
-
-    if (!game.map)
-	    ft_error_message("Error : emty map", 1);
-    if(!check_map(game.map))
+    if (game.map != NULL)
     {
-        i = 0;
-        while (game.map[i])
-            free(game.map[i++]);
-        free(game.map);
-        return(1);
+	    if(!(check_map(game.map)))
+	    {
+		    i = 0;
+		    while(game.map[i])
+			    free(game.map[i++]);
+		    free(game.map);
+		    return(1);
+	    }
     }
-
     game.mlx = mlx_init();
     if (!game.mlx)
     	exit(EXIT_FAILURE);
@@ -129,7 +127,6 @@ int main(int ac, char **av)
         free(game.mlx);
         return (1);
     }
-
     img.img_window = mlx_new_image(game.mlx, game.win_x * 128, game.win_y * 128);
     if (!img.img_window)
     {

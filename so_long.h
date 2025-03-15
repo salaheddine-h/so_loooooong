@@ -6,7 +6,7 @@
 /*   By: salah <salah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:28:44 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/15 02:17:13 by salah            ###   ########.fr       */
+/*   Updated: 2025/03/15 03:30:07 by salah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@
 
 typedef struct s_game
 {
-    void    *mlx;
+    void	*mlx;
+    void	*img;
+    void	*mlx_window;
     int     win_x;
     int     win_y;
     char    **map;
-		char    **cpy_map;
-    void    *mlx_window;
+    char    **cpy_map;
 }t_game;
 
 
