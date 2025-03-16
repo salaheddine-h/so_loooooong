@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salah <salah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:41:48 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/15 02:17:01 by salah            ###   ########.fr       */
+/*   Updated: 2025/03/15 21:59:37 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,17 @@ void	*ft_memset(void *s, int c, size_t n)
 	}
 	return (s);
 }
-void	ft_error_message(char *str, int error)
-{
-	if(!str)
-	{
-		printf("Error : ./so_long");
-	}
-	else
-	{
-		write(2, "Error\n", 7);
-		printf("%s", str);
-	}
-	(void)error;
-	exit(error);
-}
+// void	ft_error_message(char *str, int error)
+// {
+// 	if(!str)
+// 	{
+// 		printf("Error : ./so_long");
+// 	}
+// 	else
+// 	{
+// 		write(2, "Error\n", 7);
+// 		printf("%s", str);
+// 	}
+// 	(void)error;
+// 	exit(error);
+// }
