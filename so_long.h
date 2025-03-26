@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:28:44 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/16 00:46:57 by salhali          ###   ########.fr       */
+/*   Updated: 2025/03/25 01:35:24 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int check_map(char **map);
 void ERROR(const char *s);
 int count_lines(const char *Pathname_map);
 
-// Add these new function prototypes
+// Utl__!
 int load_textures(t_game *game);
 void render_map(t_game *game);
 int close_window(t_game *game);

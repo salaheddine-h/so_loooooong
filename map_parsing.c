@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:17:05 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/16 03:38:28 by salhali          ###   ########.fr       */
+/*   Updated: 2025/03/25 01:27:49 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ char **parse_map(const char *Pathname_map, t_game *game)
     int     total_lines;
     int     i;
     char    **map;
-    // char **cpy_map;
 
     total_lines = count_lines(Pathname_map);
     map = malloc(sizeof(char *) * (total_lines + 1));

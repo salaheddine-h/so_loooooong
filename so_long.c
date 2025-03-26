@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:42:03 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/16 03:42:47 by salhali          ###   ########.fr       */
+/*   Updated: 2025/03/26 13:13:00 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,6 @@ int close_window(t_game *game)
 int load_textures(t_game *game)
 {
     int width, height;
-
-    // Load wall texture
-    // game->textures.wall = mlx_xpm_file_to_image(game->mlx, "./textures/walk.xpm", &width, &height);
-    // if (!game->textures.wall)
-    //     return (0);
     
     // // Load floor texture
     // game->textures.floor = mlx_xpm_file_to_image(game->mlx, "/home/salhali/Desktop/char", &width, &height);
@@ -231,10 +226,10 @@ int check_all_collected(t_game *game)
     for (int y = 0; game->map[y]; y++) {
         for (int x = 0; game->map[y][x]; x++) {
             if (game->map[y][x] == 'C')
-                return 0; // There's still at least one collectible
+                return 0;
         }
     }
-    return 1; // All collectibles collected
+    return 1;
 }
 
 int main(int ac, char **av)
@@ -263,7 +258,6 @@ int main(int ac, char **av)
     	exit(EXIT_FAILURE);
     int size = 64;
     game.mlx_window = mlx_new_window(game.mlx, game.win_x * size, game.win_y * size, "Man7waaa");
-    printf("spammmm1\n");
     if (!game.mlx_window)
     {
         ERROR("Error : Window creation failed");
@@ -271,7 +265,6 @@ int main(int ac, char **av)
         return (1);
     }
     img.img_window = mlx_new_image(game.mlx, game.win_x * size, game.win_y * size);
-    
     if (!img.img_window)
     {
         ERROR("Error : Image creation failed");
@@ -281,7 +274,6 @@ int main(int ac, char **av)
     }
     img.addr = mlx_get_data_addr(img.img_window, &img.bits_per_pixel, &img.line_length, &img.endian);
     game.img = img.img_window;
-    printf("are u good\n");
     if(!load_textures(&game))
     {
         mlx_destroy_image(game.mlx, img.img_window);
@@ -293,8 +285,6 @@ int main(int ac, char **av)
         free(game.map);
         return(1);
     }
-    // printf("spammmm");
-    // printf("spam\n");
     render_map(&game);
     mlx_key_hook(game.mlx_window, key_handler, &game);
     // mlx_hook(game.mlx_window, 17, 0, close_window, &game);
