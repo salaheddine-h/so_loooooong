@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: salah <salah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:28:44 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/25 01:35:24 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/02 01:10:42 by salah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 
 // typedef struct	s_data
 // {
-// 	void	*img_window; //  
+// 	void	*img_window; //
 // 	char	*addr;
 // 	int		bits_per_pixel;
 // 	int		line_length;
@@ -82,8 +82,8 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include "./get_len/get_next_line.h"
-// #include "./minilibx-linux/mlx.h"
-#include "mlx.h"
+#include "./minilibx-linux/mlx.h"
+// #include "mlx.h"
 
 
 // Add this struct definition before t_game
@@ -112,7 +112,7 @@ typedef struct s_game
 
 typedef struct	s_data
 {
-	void	*img_window; //  
+	void	*img_window; //
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;

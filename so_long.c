@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
+/*   By: salah <salah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:42:03 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/26 13:13:00 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/03 15:46:07 by salah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include "mlx.h"
 #include <string.h>
 
 // // // // int		my_mlx_pixel_put(void *mlx_ptr, int x, int y, int color)
@@ -91,57 +90,97 @@ int close_window(t_game *game)
 int load_textures(t_game *game)
 {
     int width, height;
-    
+
     // // Load floor texture
-    // game->textures.floor = mlx_xpm_file_to_image(game->mlx, "/home/salhali/Desktop/char", &width, &height);
-    // if (!game->textures.floor)
-    //     return (0);
-    
+    game->textures.floor = mlx_xpm_file_to_image(game->mlx, "./textures/floor.xpm", &width, &height);
+    if (!game->textures.floor)
+        return (0);
     // Load player texture
     game->textures.player = mlx_xpm_file_to_image(game->mlx, "./textures/player.xpm", &width, &height);
-    
     if (!game->textures.player)
         return (0);
-    
+    game->textures.wall = mlx_xpm_file_to_image(game->mlx, "./textures/wall.xpm", &width, &height);
+    if (!game->textures.wall)
+        return(0);
+
     // // Load collectible texture
     // game->textures.collectible = mlx_xpm_file_to_image(game->mlx, "/home/salhali/Desktop/char", &width, &height);
     // if (!game->textures.collectible)
     //     return (0);
-    
+
     // // Load exit texture
     // game->textures.exit = mlx_xpm_file_to_image(game->mlx, "/home/salhali/Desktop/char", &width, &height);
     // if (!game->textures.exit)
     //     return (0);
-    
+
     return (1);
 }
+
+
 void render_map(t_game *game)
 {
     int x, y;
-    int tile_size = 64; // Same as used in main
-    
+    int tile_size = 64;
+
     y = 0;
     while (game->map[y])
     {
         x = 0;
         while (game->map[y][x])
         {
-            // if (game->map[y][x] == '1')
-            //     mlx_put_image_to_window(game->mlx, game->mlx_window, game->textures.wall, x * tile_size, y * tile_size);
-            // // else if (game->map[y][x] == '0')
-            //     mlx_put_image_to_window(game->mlx, game->mlx_window, game->textures.floor, x * tile_size, y * tile_size);
-            if (game->map[y][x] == 'P')
+            if (game->map[y][x] != '1')
+                mlx_put_image_to_window(game->mlx, game->mlx_window, game->textures.floor, x * tile_size, y * tile_size);
+            x++;
+        }
+        y++;
+    }
+
+    y = 0;
+    while (game->map[y])
+    {
+        x = 0;
+        while (game->map[y][x])
+        {
+            if (game->map[y][x] == '1')
+                mlx_put_image_to_window(game->mlx, game->mlx_window, game->textures.wall, x * tile_size, y * tile_size);
+            else if (game->map[y][x] == 'P')
                 mlx_put_image_to_window(game->mlx, game->mlx_window, game->textures.player, x * tile_size, y * tile_size);
-            // else if (game->map[y][x] == 'C')
+            // else if (game->map[y][x] == 'C' && game->textures.collectible)
             //     mlx_put_image_to_window(game->mlx, game->mlx_window, game->textures.collectible, x * tile_size, y * tile_size);
-            // else if (game->map[y][x] == 'E')
+            // else if (game->map[y][x] == 'E' && game->textures.exit)
             //     mlx_put_image_to_window(game->mlx, game->mlx_window, game->textures.exit, x * tile_size, y * tile_size);
-            
             x++;
         }
         y++;
     }
 }
+// void render_map(t_game *game)
+// {
+//     int x, y;
+//     int tile_size = 64;
+
+//     y = 0;
+//     while (game->map[y])
+//     {
+//         x = 0;
+//         while (game->map[y][x])
+//         {
+//             if (game->map[y][x] == '1')
+//                 mlx_put_image_to_window(game->mlx, game->mlx_window, game->textures.wall, x * tile_size, y * tile_size);
+//             else if (game->map[y][x] == '0')
+//                 mlx_put_image_to_window(game->mlx, game->mlx_window, game->textures.floor, x * tile_size, y * tile_size);
+//             else if (game->map[y][x] == 'P')
+//                 mlx_put_image_to_window(game->mlx, game->mlx_window, game->textures.player, x * tile_size, y * tile_size);
+//             // else if (game->map[y][x] == 'C')
+//             //     mlx_put_image_to_window(game->mlx, game->mlx_window, game->textures.collectible, x * tile_size, y * tile_size);
+//             // else if (game->map[y][x] == 'E')
+//             //     mlx_put_image_to_window(game->mlx, game->mlx_window, game->textures.exit, x * tile_size, y * tile_size);
+
+//             x++;
+//         }
+//         y++;
+//     }
+// }
 int key_handler(int keycode, t_game *game)
 {
     // W or up arrow - move up
@@ -159,7 +198,7 @@ int key_handler(int keycode, t_game *game)
     // ESC key to exit
     else if (keycode == 65307)
         return close_window(game);
-    
+
     return (0);
 }
 void move_player(t_game *game, int dx, int dy)
@@ -168,14 +207,14 @@ void move_player(t_game *game, int dx, int dy)
     int x;
     int current_x = 0, current_y = 0;
     static int move_count = 0;
-    
+
     // Find player position
     while(game->map[y])
     {
         x = 0;
-        while(game->map[y][x]) 
+        while(game->map[y][x])
         {
-            if (game->map[y][x] == 'P') 
+            if (game->map[y][x] == 'P')
             {
                 current_x = x;
                 current_y = y;
@@ -191,13 +230,13 @@ void move_player(t_game *game, int dx, int dy)
     // Check if move is valid
     if (game->map[new_y][new_x] == '1')
         return; // Hit a wall
-    
+
     // Check for collectible
     if (game->map[new_y][new_x] == 'C') {
         // Collect item logic
         // You might want to increment a counter here
     }
-    
+
     // Check for exit
     if (game->map[new_y][new_x] == 'E') {
         // Check if all collectibles are collected
@@ -205,19 +244,19 @@ void move_player(t_game *game, int dx, int dy)
         // If not, just return and don't move
         if (!check_all_collected(game))
             return;
-        
+
         printf("You won! Moves: %d\n", move_count + 1);
         close_window(game);
     }
-    
+
     // Move player
     game->map[current_y][current_x] = '0';
     game->map[new_y][new_x] = 'P';
-    
+
     // Increment and display move count
     move_count++;
     printf("Moves: %d\n", move_count);
-    
+
     // Redraw map
     render_map(game);
 }
@@ -297,14 +336,14 @@ int main(int ac, char **av)
 //     t_game game;
 //     t_data img;
 //     int i;
-    
+
 //     if (ac != 2)
 //         ft_error_message("Error input", 1);
-    
+
 //     ft_memset(&game, 0, sizeof(game));
 //     game.map = parse_map(av[1], &game);
 //     if (game.map != NULL) {
-//         if(!(check_map(game.map))) 
+//         if(!(check_map(game.map)))
 //         {
 //             i = 0;
 //             while(game.map[i])
