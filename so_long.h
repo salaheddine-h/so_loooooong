@@ -6,7 +6,7 @@
 /*   By: salah <salah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:28:44 by salhali           #+#    #+#             */
-/*   Updated: 2025/04/02 01:10:42 by salah            ###   ########.fr       */
+/*   Updated: 2025/04/07 14:31:34 by salah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@
 // #include "mlx.h"
 
 
-// Add this struct definition before t_game
 typedef struct s_textures
 {
     void *wall; //here
