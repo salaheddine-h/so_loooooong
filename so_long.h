@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salah <salah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:28:44 by salhali           #+#    #+#             */
-/*   Updated: 2025/04/07 14:31:34 by salah            ###   ########.fr       */
+/*   Updated: 2025/04/08 13:03:33 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include "./get_len/get_next_line.h"
-#include "./minilibx-linux/mlx.h"
-// #include "mlx.h"
+// #include "./minilibx-linux/mlx.h"
+#include "mlx.h"
 
 
 typedef struct s_textures
