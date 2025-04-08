@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:17:05 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/25 01:27:49 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/08 18:50:59 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,6 @@ char **copy_map(char **origin_map)
         i++;
     }
     map_copy[i] = NULL;
-    // i = 0;
-    // while(map_copy[i])
-    //     free(map_copy[i++]);
-    // free(map_copy);
     return map_copy;
 }
 
@@ -65,8 +61,8 @@ char **parse_map(const char *Pathname_map, t_game *game)
     map[i] = NULL;
     close(fd);
     game->cpy_map = copy_map(map);
-    game->win_y = i; // 6
-    game->win_x = ft_strlen(map[0]); // 34
+    game->win_y = i;
+    game->win_x = ft_strlen(map[0]);
     return map;
 }
 
@@ -94,7 +90,7 @@ int check_shape(char **map)
     return 1;
 }
 
-int check_walls(char **map) //Walls الجدران
+int check_walls(char **map) //Walls
 {
     size_t i;
     size_t  j;
@@ -156,7 +152,6 @@ int check_player(char **map)
         }
         i++;
     }
-    // printf("count player[%d], exit[%d] , coints[%d]\n",count_player, count_exit, count_collectible);
     if(count_player != 1 || count_exit != 1 || count_collectible < 1)
         return 0;
     return 1;
@@ -164,12 +159,12 @@ int check_player(char **map)
 
 int check_map(char **map)
 {
-    if (check_shape(map) == 0)//Shape شكل
+    if (check_shape(map) == 0)//Shape
     {
         ERROR("Error: Map is not valid.\n");
         return 0;
     }
-    if (check_walls(map) == 0) //Walls الجدران
+    if (check_walls(map) == 0) //Walls 
     {
         ERROR("Error: Map Walls are not valid.\n");
         return 0;

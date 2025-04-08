@@ -6,73 +6,11 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:42:03 by salhali           #+#    #+#             */
-/*   Updated: 2025/04/08 16:44:02 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/08 19:02:56 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <string.h>
-
-// // // // int		my_mlx_pixel_put(void *mlx_ptr, int x, int y, int color)
-// // // // {
-// // // //     if(!mlx_ptr)
-// // // //         return(NULL);
-
-// // // // }
-// // // int main(int ac, char **av)
-// // // {
-// // //     t_game game;
-// // //     t_data  img;
-// // //     int i;
-
-// // //     if (ac > 2)
-// // //         return (-1);
-// // //     memset(&game,0,sizeof(game));
-// // //     game.map = parse_map(av[1],&game);
-// // //     if (!game.map)
-// // //     {
-// // //         ERROR("ERROR, Empty Map");
-// // //         return (1);
-// // //     }
-// // //     if(!check_map(game.map))
-// // //     {
-// // //         i = 0;
-// // //         while (game.map[i])
-// // //             free(game.map[i++]);
-// // //         free(game.map);
-// // //         return(1);
-// // //     }
-// // //     game.mlx = mlx_init();
-// // //     game.mlx_window = mlx_new_window(game.mlx, game.win_x * 128, game.win_y * 128, "man7wa");
-// // //     img.img_window = mlx_new_image(game.mlx,  game.win_y * 128, game.win_y * 128);
-// // //     img.addr = mlx_get_data_addr(img.img_window, &img.bits_per_pixel, &img.line_length, &img.endian);
-// // //     mlx_pixel_put(&img, 5, 5, 0x00FF0000);
-// // //     // mlx_string_put(game.mlx, void *win_ptr, int x, int y, int color, char *string);
-// // //     mlx_put_image_to_window(game.mlx, game.mlx_window, img.img_window, 0, 0);
-// // //     mlx_loop(game.mlx);
-// // //     return (0);
-// // // }
-
-// // // // int	main(void)
-// // // // {
-// // // // 	void	*mlx;
-// // // // 	void	*mlx_win;
-// // // // 	t_data	img;
-
-// // // // 	mlx = mlx_init();
-// // // // 	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-// // // // 	img.img = mlx_new_image(mlx, 1920, 1080);
-// // // // 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-// // // // 								&img.endian);
-// // // // 	my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
-// // // // 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-// // // // 	mlx_loop(mlx);
-// // // // }
-
-
-// #include "so_long.h"
-// // #include "mlx.h"
-// // #include <string.h>
 
 int close_window(t_game *game)
 {
@@ -113,9 +51,10 @@ int load_textures(t_game *game)
 void render_map(t_game *game)
 {
     int x, y;
-    int tile_size = 64;
+    int tile_size;
 
     y = 0;
+    tile_size = 64;
     mlx_clear_window(game->mlx , game->mlx_window);
     while (game->map[y])
     {
@@ -213,15 +152,10 @@ void move_player(t_game *game, int dx, int dy)
         printf("You won! Moves: %d\n", move_count + 1);
         close_window(game);
     }
-
-    // Move player
     game->map[current_y][current_x] = '0';
     game->map[new_y][new_x] = 'P';
-
     move_count++;
     printf("Moves: %d\n", move_count);
-
-    // Redraw map
     render_map(game);
 }
 int check_all_collected(t_game *game)
@@ -247,12 +181,17 @@ int main(int ac, char **av)
     game.map = parse_map(av[1], &game);
     if (game.map != NULL)
     {
-	    if(!(check_map(game.map)))
+	    if(!(check_map(game.map)) || !validate_path(&game))
 	    {
 		    i = 0;
 		    while(game.map[i])
 			    free(game.map[i++]);
 		    free(game.map);
+            i = 0;
+            while(game.cpy_map[i])
+                free(game.cpy_map[i++]);
+            free(game.cpy_map);
+            ERROR("Error : Invalid map path - player canat't reach all collectibles or exit");
 		    return(1);
 	    }
     }
@@ -277,7 +216,7 @@ int main(int ac, char **av)
     }
     img.addr = mlx_get_data_addr(img.img_window, &img.bits_per_pixel, &img.line_length, &img.endian);
     game.img = img.img_window;
-    if(!load_textures(&game))
+    if (!load_textures(&game))
     {
         mlx_destroy_image(game.mlx, img.img_window);
         mlx_destroy_window(game.mlx, game.mlx_window);
