@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:41:48 by salhali           #+#    #+#             */
-/*   Updated: 2025/04/08 19:02:05 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/09 16:35:43 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ void ERROR(const char *s)
 }
 void flood_fill(char **map, int x, int y)
 {
-    if (map[y][x] == '1' || map[y][x] == 'X')
+    if (map[y][x] == '1' || map[y][x] == 'E' || map[y][x] == 'X')
+    {
+        if (map[y][x] == 'E')
+            map[y][x] = '1';
         return;
+    }
     
     map[y][x] = 'X';
     
@@ -34,7 +38,6 @@ int validate_path(t_game *game)
     int player_x = -1, player_y = -1;
     int y = 0, x;
     
-    // First, find the player's position
     while (game->cpy_map[y])
     {
         x = 0;
@@ -53,18 +56,14 @@ int validate_path(t_game *game)
         y++;
     }
     
-    // Start flood fill from player position
     flood_fill(game->cpy_map, player_x, player_y);
     
-    // Check if all collectibles and exit are reachable
     y = 0;
     while (game->cpy_map[y])
     {
         x = 0;
         while (game->cpy_map[y][x])
         {
-            // If we find a collectible or exit that hasn't been 
-            // replaced with 'X', it means it's unreachable
             if (game->cpy_map[y][x] == 'C' || game->cpy_map[y][x] == 'E')
                 return (0);
             x++;
@@ -72,7 +71,7 @@ int validate_path(t_game *game)
         y++;
     }
     
-    return (1); // All collectibles and exit are reachable
+    return (1);
 }
 
 int count_lines(const char *Pathname_map)
@@ -107,3 +106,69 @@ void	*ft_memset(void *s, int c, size_t n)
 	return (s);
 }
 
+// int close_window(t_game *game)
+// {
+//     cleanup(game);
+//     exit(0);
+//     return (0);
+// }
+
+int key_handler(int keycode, t_game *game)
+{
+    // W or up arrow - move up
+    if (keycode == 119 || keycode == 65362)
+        move_player(game, 0, -1);
+    // A or left arrow - move left
+    else if (keycode == 97 || keycode == 65361)
+        move_player(game, -1, 0);
+    // S or down arrow - move down
+    else if (keycode == 115 || keycode == 65364)
+        move_player(game, 0, 1);
+    // D or right arrow - move right
+    else if (keycode == 100 || keycode == 65363)
+        move_player(game, 1, 0);
+    // ESC key to exit
+    else if (keycode == 65307)
+        return close_window(game);
+
+    return (0);
+}
+// void cleanup(t_game *game)
+// {
+//     int i = 0;
+    
+//     // Free textures
+//     if (game->textures.floor)
+//         mlx_destroy_image(game->mlx, game->textures.floor);
+//     if (game->textures.player)
+//         mlx_destroy_image(game->mlx, game->textures.player);
+//     if (game->textures.wall)
+//         mlx_destroy_image(game->mlx, game->textures.wall);
+//     if (game->textures.collectible)
+//         mlx_destroy_image(game->mlx, game->textures.collectible);
+//     if (game->textures.exit)
+//         mlx_destroy_image(game->mlx, game->textures.exit);
+    
+//     // Free window resources
+//     if (game->img)
+//         mlx_destroy_image(game->mlx, game->img);
+//     if (game->mlx_window)
+//         mlx_destroy_window(game->mlx, game->mlx_window);
+    
+//     // Free map
+//     while (game->map && game->map[i])
+//         free(game->map[i++]);
+//     if (game->map)
+//         free(game->map);
+    
+//     // Free copy map if exists
+//     i = 0;
+//     while (game->cpy_map && game->cpy_map[i])
+//         free(game->cpy_map[i++]);
+//     if (game->cpy_map)
+//         free(game->cpy_map);
+    
+//     // Free MLX connection
+//     if (game->mlx)
+//         free(game->mlx);
+// }

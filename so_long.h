@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:28:44 by salhali           #+#    #+#             */
-/*   Updated: 2025/04/08 18:57:35 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/09 17:21:35 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include "./get_len/get_next_line.h"
+#include "./ft_printf/ft_printf.h"
 #include "mlx.h"
 
 
@@ -32,12 +33,12 @@ typedef struct s_textures
 
 typedef struct s_game
 {
-    void	*mlx;
+    void	*mlx; // mlx_all_function_hna
     void	*img;
     void	*mlx_window;
-    int     win_x;
-    int     win_y;
-    char    **map;
+    int     win_x; //touL 
+    int     win_y; // l3ard 
+    char    **map; // map hna 
     char    **cpy_map;
     t_textures textures;
 }t_game;
@@ -58,7 +59,6 @@ int check_shape(char **map);
 int check_walls(char **map);
 int check_player(char **map);
 int check_map(char **map);
-// void	ft_error_message(char *str, int error);
 void ERROR(const char *s);
 int count_lines(const char *Pathname_map);
 
@@ -74,5 +74,8 @@ int check_all_collected(t_game *game);
 
 void    flood_fill(char **map, int x, int y);
 int     validate_path(t_game *game);
+
+void cleanup(t_game *game);
+
 
 # endif

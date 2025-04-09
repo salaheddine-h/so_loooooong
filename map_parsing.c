@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:17:05 by salhali           #+#    #+#             */
-/*   Updated: 2025/04/08 18:50:59 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/09 15:40:55 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,9 @@ char **parse_map(const char *Pathname_map, t_game *game)
     map = malloc(sizeof(char *) * (total_lines + 1));
     if (!map)
         return NULL;
-
     fd = open(Pathname_map, O_RDONLY);
     if (fd == -1)
         return NULL;
-
     i = 0;
     while ((map[i] = get_next_line(fd)) != NULL)
         i++;
@@ -90,7 +88,7 @@ int check_shape(char **map)
     return 1;
 }
 
-int check_walls(char **map) //Walls
+int check_walls(char **map)
 {
     size_t i;
     size_t  j;
@@ -159,12 +157,12 @@ int check_player(char **map)
 
 int check_map(char **map)
 {
-    if (check_shape(map) == 0)//Shape
+    if (check_shape(map) == 0)
     {
         ERROR("Error: Map is not valid.\n");
         return 0;
     }
-    if (check_walls(map) == 0) //Walls 
+    if (check_walls(map) == 0)
     {
         ERROR("Error: Map Walls are not valid.\n");
         return 0;

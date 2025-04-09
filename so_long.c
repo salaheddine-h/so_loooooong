@@ -6,25 +6,12 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:42:03 by salhali           #+#    #+#             */
-/*   Updated: 2025/04/08 19:02:56 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/09 17:20:56 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int close_window(t_game *game)
-{
-    int i = 0;
-
-    while (game->map && game->map[i])
-        free(game->map[i++]);
-    free(game->map);
-    if (game->mlx_window)
-        mlx_destroy_window(game->mlx, game->mlx_window);
-    free(game->mlx);
-    exit(0);
-    return (0);
-}
 int load_textures(t_game *game)
 {
     int width, height;
@@ -46,7 +33,6 @@ int load_textures(t_game *game)
         return (0);
     return (1);
 }
-
 
 void render_map(t_game *game)
 {
@@ -88,26 +74,6 @@ void render_map(t_game *game)
     }
 }
 
-int key_handler(int keycode, t_game *game)
-{
-    // W or up arrow - move up
-    if (keycode == 119 || keycode == 65362)
-        move_player(game, 0, -1);
-    // A or left arrow - move left
-    else if (keycode == 97 || keycode == 65361)
-        move_player(game, -1, 0);
-    // S or down arrow - move down
-    else if (keycode == 115 || keycode == 65364)
-        move_player(game, 0, 1);
-    // D or right arrow - move right
-    else if (keycode == 100 || keycode == 65363)
-        move_player(game, 1, 0);
-    // ESC key to exit
-    else if (keycode == 65307)
-        return close_window(game);
-
-    return (0);
-}
 void move_player(t_game *game, int dx, int dy)
 {
     int y = 0;
@@ -134,30 +100,21 @@ void move_player(t_game *game, int dx, int dy)
     int new_y = current_y + dy;
     if (game->map[new_y][new_x] == '1')
         return;
-    // if (game->map[new_y][new_x] == 'C') 
-    // {
-    //     // Collect item logic
-    //     // You might want to increment a counter here
-    // }
-
-    // Check for exit
     if (game->map[new_y][new_x] == 'E')
     {
-        // Check if all collectibles are collected
-        // If yes, end the game
-        // If not, just return and don't move
         if (!check_all_collected(game))
             return;
-
-        printf("You won! Moves: %d\n", move_count + 1);
+        ft_printf("Moves : %d\n", move_count + 1);
+        ft_printf("You won!\n");
         close_window(game);
     }
     game->map[current_y][current_x] = '0';
     game->map[new_y][new_x] = 'P';
     move_count++;
-    printf("Moves: %d\n", move_count);
+    ft_printf("Moves: %d\n", move_count);
     render_map(game);
 }
+
 int check_all_collected(t_game *game)
 {
     for (int y = 0; game->map[y]; y++) {
@@ -169,11 +126,59 @@ int check_all_collected(t_game *game)
     return 1;
 }
 
+void cleanup(t_game *game)
+{
+    int i = 0;
+    
+    // Free textures
+    if (game->textures.floor)
+        mlx_destroy_image(game->mlx, game->textures.floor);
+    if (game->textures.player)
+        mlx_destroy_image(game->mlx, game->textures.player);
+    if (game->textures.wall)
+        mlx_destroy_image(game->mlx, game->textures.wall);
+    if (game->textures.collectible)
+        mlx_destroy_image(game->mlx, game->textures.collectible);
+    if (game->textures.exit)
+        mlx_destroy_image(game->mlx, game->textures.exit);
+    
+    // Free window resources
+    if (game->img)
+        mlx_destroy_image(game->mlx, game->img);
+    if (game->mlx_window)
+        mlx_destroy_window(game->mlx, game->mlx_window);
+    
+    // Free map
+    while (game->map && game->map[i])
+        free(game->map[i++]);
+    if (game->map)
+        free(game->map);
+    
+    // Free copy map if exists
+    i = 0;
+    while (game->cpy_map && game->cpy_map[i])
+        free(game->cpy_map[i++]);
+    if (game->cpy_map)
+        free(game->cpy_map);
+    
+    // Free MLX connection
+    if (game->mlx)
+        free(game->mlx);
+}
+
+int close_window(t_game *game)
+{
+    cleanup(game);
+    exit(0);
+    return (0);
+}
+
 int main(int ac, char **av)
 {
     t_game game;
     t_data img;
     int i;
+    int size;
 
     if (ac != 2)
     	ERROR("Error input");
@@ -197,39 +202,34 @@ int main(int ac, char **av)
     }
     game.mlx = mlx_init();
     if (!game.mlx)
-    	exit(EXIT_FAILURE);
-    int size = 64;
+        exit(EXIT_FAILURE);
+    size = 64;
     game.mlx_window = mlx_new_window(game.mlx, game.win_x * size, game.win_y * size, "Man7waaa");
     if (!game.mlx_window)
     {
         ERROR("Error : Window creation failed");
-        free(game.mlx);
+        // free(game.mlx_window);
+        cleanup(&game);
         return (1);
     }
     img.img_window = mlx_new_image(game.mlx, game.win_x * size, game.win_y * size);
     if (!img.img_window)
     {
         ERROR("Error : Image creation failed");
-        mlx_destroy_window(game.mlx, game.mlx_window);
-        free(game.mlx);
+        // free(img.img_window);
+        cleanup(&game);
         return (1);
     }
     img.addr = mlx_get_data_addr(img.img_window, &img.bits_per_pixel, &img.line_length, &img.endian);
     game.img = img.img_window;
     if (!load_textures(&game))
     {
-        mlx_destroy_image(game.mlx, img.img_window);
-        mlx_destroy_window(game.mlx, game.mlx_window);
-        free(game.mlx);
-        i = 0;
-        while(game.map[i])
-            free(game.map[i++]);
-        free(game.map);
+        cleanup(&game);
         return(1);
     }
     render_map(&game);
+    mlx_hook(game.mlx_window, 17, 0, close_window, &game);
     mlx_key_hook(game.mlx_window, key_handler, &game);
-    // mlx_hook(game.mlx_window, 17, 0, close_window, &game);
     mlx_loop(game.mlx);
     return (0);
 }
