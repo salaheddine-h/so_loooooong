@@ -6,76 +6,117 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:28:44 by salhali           #+#    #+#             */
-/*   Updated: 2025/04/09 17:21:35 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/09 20:42:43 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef SO_LONG_H
+#ifndef SO_LONG_H
 # define SO_LONG_H
 
-#include <unistd.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include "./get_len/get_next_line.h"
-#include "./ft_printf/ft_printf.h"
-#include "mlx.h"
-
+# include "./ft_printf/ft_printf.h"
+# include "./get_len/get_next_line.h"
+# include "mlx.h"
+# include <X11/X.h>
+# include <X11/keysym.h>
+# include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# ifdef __linux__
+# endif
 
 typedef struct s_textures
 {
-    void *wall;
-    void *floor;
-    void *player;
-    void *collectible;
-    void *exit;
-} t_textures;
+	void		*wall;
+	void		*floor;
+	void		*player;
+	void		*collectible;
+	void		*exit;
+}				t_textures;
 
 typedef struct s_game
 {
-    void	*mlx; // mlx_all_function_hna
-    void	*img;
-    void	*mlx_window;
-    int     win_x; //touL 
-    int     win_y; // l3ard 
-    char    **map; // map hna 
-    char    **cpy_map;
-    t_textures textures;
-}t_game;
+	void		*mlx;
+	void		*img;
+	void		*mlx_window;
+	int			win_x;
+	int			win_y;
+	char		**map;
+	char		**cpy_map;
+	t_textures	textures;
+}				t_game;
 
-
-typedef struct	s_data
+typedef struct s_data
 {
-	void	*img_window;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}t_data;
+	void		*img_window;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+}				t_data;
 
-char **parse_map(const char *Pathname_map, t_game *game);
-void	*ft_memset(void *s, int c, size_t n);
-int check_shape(char **map);
-int check_walls(char **map);
-int check_player(char **map);
-int check_map(char **map);
-void ERROR(const char *s);
-int count_lines(const char *Pathname_map);
+// -------------> main
+void			init_game_struct(t_game *game);
+void			free_map_and_copy(t_game *game);
+int				check_valid_map_and_path(t_game *game);
+int				create_window_and_image(t_game *game, t_data *img, int size);
+int				init_graphics(t_game *game, t_data *img);
+void			setup_hooks_and_loop(t_game *game);
 
-// Utl__!
+// -------------> check_parsing
 
-int load_textures(t_game *game);
-void render_map(t_game *game);
-int close_window(t_game *game);
-int key_handler(int keycode, t_game *game);
-void move_player(t_game *game, int dx, int dy);
-int check_all_collected(t_game *game);
+int				check_player(char **map);
+int				is_map_valid_elements(int p, int e, int c);
+void			count_elements(char **map, int *p_count, int *e_count,
+					int *c_count);
 
+// -------------> map_parsing
 
-void    flood_fill(char **map, int x, int y);
-int     validate_path(t_game *game);
+char			**parse_map(const char *Pathname_map, t_game *game);
+int				check_shape(char **map);
+int				check_map(char **map);
 
-void cleanup(t_game *game);
+// -------------> check_walls
+void			get_map_size(char **map, size_t *width, size_t *height);
+int				check_horizontal_walls(char **map, size_t width, size_t height);
+int				sanitize_and_check_vertical_walls(char **map, size_t height);
+int				check_walls(char **map);
 
+// -------------> cpy_map
 
-# endif
+char			**copy_map(char **origin_map);
+size_t			double_str_len(char **str);
+
+// -------------> load_game
+
+int				load_textures(t_game *game);
+void			render_map(t_game *game);
+void			move_player(t_game *game, int dx, int dy);
+int				check_all_collected(t_game *game);
+
+// -------------> helper_1
+
+int				check_all_collected(t_game *game);
+void			flood_fill(char **map, int x, int y);
+int				validate_path(t_game *game);
+int				find_player_position(t_game *game, int *player_x,
+					int *player_y);
+int				check_unreachable_elements(char **map);
+
+// -------------> helper_2
+
+int				key_handler(int keycode, t_game *game);
+void			*ft_memset(void *s, int c, size_t n);
+int				count_lines(const char *Pathname_map);
+void			error(const char *s);
+int				close_window(t_game *game);
+
+// -------------> cleanning
+
+void			free_textures(t_game *game);
+void			free_window(t_game *game);
+void			free_map(char **map);
+void			free_mlx(t_game *game);
+void			cleanup(t_game *game);
+
+#endif

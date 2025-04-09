@@ -3,6 +3,7 @@
         "map": "c",
         "format": "c",
         "so_long.h": "c",
-        "sstream": "c"
+        "sstream": "c",
+        "HELPER_3.C": "cpp"
     }
 }
