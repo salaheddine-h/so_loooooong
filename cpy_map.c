@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 20:34:11 by salhali           #+#    #+#             */
-/*   Updated: 2025/04/09 20:34:24 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/10 17:41:44 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,18 @@ size_t	double_str_len(char **str)
 
 	i = 0;
 	while (*str)
-		i++, str++;
+	{
+		i++;
+		str++;
+	}
 	return (i);
 }
+
 char	**copy_map(char **origin_map)
 {
-	size_t len;
-	int i;
-	char **map_copy;
+	size_t	len;
+	int		i;
+	char	**map_copy;
 
 	len = double_str_len(origin_map);
 	map_copy = malloc(sizeof(char *) * (len + 1));

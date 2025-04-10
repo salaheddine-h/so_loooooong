@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:12:12 by salhali           #+#    #+#             */
-/*   Updated: 2025/03/12 16:32:42 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/10 19:35:03 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ size_t	ft_strlen(char *s);
 char	*new_line(char *line);
 char	*ft_get_line(int fd, char *line);
 char	*ft_get_next_line(char *line);
+int    ft_strcmp(char *s1, char *s2);
 
 #endif

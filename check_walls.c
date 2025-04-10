@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 20:36:01 by salhali           #+#    #+#             */
-/*   Updated: 2025/04/09 20:45:54 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/10 19:10:00 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int	sanitize_and_check_vertical_walls(char **map, size_t height)
 
 int	check_walls(char **map)
 {
-	size_t width, height;
+	size_t	width;
+	size_t	height;
 
 	get_map_size(map, &width, &height);
 	if (!check_horizontal_walls(map, width, height))

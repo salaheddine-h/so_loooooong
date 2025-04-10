@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 18:18:32 by salhali           #+#    #+#             */
-/*   Updated: 2025/04/09 20:16:30 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/10 20:50:36 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	close_window(t_game *game)
 	return (0);
 }
 
-void	error(const char *s)
+void	error(char *str)
 {
-	perror((char *)s);
+	write(2, str, ft_strlen(str));
 }
 
 int	count_lines(const char *Pathname_map)
@@ -34,10 +34,12 @@ int	count_lines(const char *Pathname_map)
 	fd = open(Pathname_map, O_RDONLY);
 	if (fd == -1)
 		return (-1);
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
 		count++;
 		free(line);
+		line = get_next_line(fd);
 	}
 	close(fd);
 	return (count);
@@ -57,6 +59,7 @@ void	*ft_memset(void *s, int c, size_t n)
 	}
 	return (s);
 }
+
 int	key_handler(int keycode, t_game *game)
 {
 	if (keycode == 119 || keycode == 65362)

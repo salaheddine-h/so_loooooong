@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:28:44 by salhali           #+#    #+#             */
-/*   Updated: 2025/04/09 20:42:43 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/10 20:48:31 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,12 @@ size_t			double_str_len(char **str);
 // -------------> load_game
 
 int				load_textures(t_game *game);
+void			render_floor(t_game *game, int tile_size);
 void			render_map(t_game *game);
+void			render_objects(t_game *game, int tile_size);
 void			move_player(t_game *game, int dx, int dy);
 int				check_all_collected(t_game *game);
+int				find_player_pos(t_game *game, int *x_pos, int *y_pos);
 
 // -------------> helper_1
 
@@ -108,7 +111,7 @@ int				check_unreachable_elements(char **map);
 int				key_handler(int keycode, t_game *game);
 void			*ft_memset(void *s, int c, size_t n);
 int				count_lines(const char *Pathname_map);
-void			error(const char *s);
+void			error(char *s);
 int				close_window(t_game *game);
 
 // -------------> cleanning
@@ -118,5 +121,7 @@ void			free_window(t_game *game);
 void			free_map(char **map);
 void			free_mlx(t_game *game);
 void			cleanup(t_game *game);
+char			*ft_strtrim(char *s1, char *set);
+void			check_dotber(char **av);
 
 #endif

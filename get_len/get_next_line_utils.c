@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:57:16 by salhali           #+#    #+#             */
-/*   Updated: 2024/12/14 15:12:42 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/10 19:34:47 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,18 @@ char	*ft_strdup(char *s)
 	}
 	str[i] = '\0';
 	return (str);
+}
+
+int    ft_strcmp(char *s1, char *s2)
+{
+  int i;
+
+  i = 0;
+  while(s1[i] && s2[i])
+  {
+    if(s1[i] != s2[i])
+      return(s1[i] - s2[i]);
+    i++;
+  }
+  return(s1[i] - s2[i]);
 }

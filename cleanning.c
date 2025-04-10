@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 20:16:14 by salhali           #+#    #+#             */
-/*   Updated: 2025/04/09 20:55:49 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/10 15:31:56 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ void	free_map(char **map)
 
 void	free_mlx(t_game *game)
 {
-#ifdef __linux__
 	if (game->mlx)
 		mlx_destroy_display(game->mlx);
-#endif
 	if (game->mlx)
 		free(game->mlx);
 }

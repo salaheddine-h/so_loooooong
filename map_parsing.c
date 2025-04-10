@@ -6,7 +6,7 @@
 /*   By: salhali <salhali@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:17:05 by salhali           #+#    #+#             */
-/*   Updated: 2025/04/09 20:52:48 by salhali          ###   ########.fr       */
+/*   Updated: 2025/04/10 20:49:33 by salhali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	**parse_map(const char *Pathname_map, t_game *game)
 	int		total_lines;
 	int		i;
 	char	**map;
+	char	*stripped;
 
 	total_lines = count_lines(Pathname_map);
 	map = malloc(sizeof(char *) * (total_lines + 1));
@@ -27,16 +28,18 @@ char	**parse_map(const char *Pathname_map, t_game *game)
 	if (fd == -1)
 		return (NULL);
 	i = 0;
-	while ((map[i] = get_next_line(fd)) != NULL)
-		i++;
+	map[i] = get_next_line(fd);
+	while (map[i] != NULL)
+		map[++i] = get_next_line(fd);
 	map[i] = NULL;
 	close(fd);
 	game->cpy_map = copy_map(map);
 	game->win_y = i;
-	game->win_x = ft_strlen(map[0]);
+	stripped = ft_strtrim(map[0], "\n");
+	game->win_x = ft_strlen(stripped);
+	free(stripped);
 	return (map);
 }
-
 
 int	check_shape(char **map)
 {
@@ -80,4 +83,21 @@ int	check_map(char **map)
 		return (0);
 	}
 	return (1);
+}
+
+void	check_dotber(char **av)
+{
+	int		len;
+	char	*str;
+
+	str = ".ber";
+	len = ft_strlen(av[1]);
+
+	if (len >= 4)
+	{
+		if (ft_strcmp(av[1] + len - 4, str) != 0)
+		{
+			error("Error is not the good argument !");
+		}
+	}
 }
